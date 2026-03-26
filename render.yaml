@@ -1,18 +1,14 @@
 services:
+  # Backend Service
   - type: web
     name: ship-detection-backend
     env: python
-    plan: free
     buildCommand: pip install -r backend/requirements.txt
     startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
 
+  # Frontend Service (Node.js web service)
   - type: web
     name: ship-detection-frontend
-    env: static
-    plan: free
+    env: node
     buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: frontend/dist
-    routes:
-      - type: rewrite
-        src: /*
-        dest: /index.html
+    startCommand: cd frontend && npm run dev -- --host 0.0.0.0 --port $PORT
