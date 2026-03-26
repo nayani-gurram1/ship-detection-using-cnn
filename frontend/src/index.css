@@ -1,0 +1,428 @@
+@import "tailwindcss";
+
+/* ── Design Tokens ─────────────────────────────────────────────────── */
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --c-bg: #030712;
+  --c-bg2: #0f172a;
+  --c-surface: rgba(15, 23, 42, 0.6);
+  --c-surface-hover: rgba(30, 41, 59, 0.8);
+  --c-border: rgba(51, 65, 85, 0.4);
+  --c-text: #94a3b8;
+  --c-text-dim: #64748b;
+  --c-text-bright: #f8fafc;
+  --c-accent: #3b82f6;
+  --c-accent-hover: #2563eb;
+  --c-accent-glow: rgba(59, 130, 246, 0.2);
+  --c-green: #10b981;
+  --c-red: #ef4444;
+  --c-amber: #f59e0b;
+  --c-cyan: #06b6d4;
+  --c-purple: #8b5cf6;
+  --c-pink: #ec4899;
+  --glass-bg: rgba(15, 23, 42, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --sidebar-w: 0px; 
+  --sidebar-collapsed: 0px;
+  --topbar-h: 92px; 
+  --container-max: 1440px;
+  --section-gap: 80px; 
+  --card-radius: 24px; 
+  --card-padding: 40px; 
+
+  /* Spacing Scale */
+  --s-xs: 0.5rem;  /* 8px */
+  --s-sm: 1rem;    /* 16px */
+  --s-md: 1.5rem;  /* 24px */
+  --s-lg: 2rem;    /* 32px */
+  --s-xl: 3rem;    /* 48px */
+  --s-2xl: 4rem;   /* 64px */
+  --s-3xl: 5rem;   /* 80px */
+}
+
+/* ── Global Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--c-bg);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0, transparent 50%), 
+    radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.08) 0, transparent 50%);
+  color: var(--c-text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6; /* Improved readability */
+}
+
+#root { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── Enhanced Scroller ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { 
+  background: rgba(15, 23, 42, 0.4); 
+  border-radius: 20px;
+  margin: 8px;
+}
+::-webkit-scrollbar-thumb { 
+  background: linear-gradient(180deg, var(--c-accent) 0%, var(--c-purple) 100%);
+  border-radius: 20px; 
+  border: 3px solid #030712;
+  min-height: 80px; 
+}
+::-webkit-scrollbar-thumb:hover { 
+  background: linear-gradient(180deg, var(--c-accent-hover) 0%, var(--c-purple) 100%);
+}
+
+/* ── Main content — Spacing Fix ─────────────────────────────── */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: var(--topbar-h);
+  padding-bottom: var(--s-3xl); /* Standardized bottom breathing room */
+  padding-left: 0 !important;
+  transition: padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Layout Helpers ─────────────────────────────────────────── */
+.section-container {
+  margin-bottom: var(--section-gap);
+  padding: 0 20px;
+}
+
+/* ── Glassmorphism ─────────────────────────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: var(--card-padding);
+}
+
+.glass-sm {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  padding: 24px;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────── */
+.btn-primary {
+  background: var(--c-accent);
+  color: white;
+  padding: 1rem 2rem; /* Increased padding */
+  border-radius: 16px; /* More rounded */
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:hover {
+  background: var(--c-accent-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -8px rgba(59, 130, 246, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-outline {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--c-text-bright);
+  padding: 0.875rem 1.75rem;
+  border-radius: 14px;
+  font-weight: 600;
+  border: 1px solid var(--c-border);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--c-text-dim);
+  transform: translateY(-2px);
+}
+
+/* ── Inputs ────────────────────────────────────────────────────────── */
+input[type="text"], input[type="number"], select, textarea {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--c-border);
+  border-radius: 14px;
+  padding: 0.875rem 1.25rem;
+  color: var(--c-text-bright);
+  transition: all 0.3s ease;
+  font-family: inherit;
+  margin: 8px 0; /* Vertical breathing room */
+}
+
+/* ── Glassmorphism ─────────────────────────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s ease;
+}
+
+.glass-sm {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Glow effects ──────────────────────────────────────────────────── */
+.glow-accent { box-shadow: 0 0 20px var(--c-accent-glow), 0 0 40px rgba(59, 130, 246, 0.1); }
+.glow-green  { box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
+.glow-red    { box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); }
+.glow-amber  { box-shadow: 0 0 20px rgba(245, 158, 11, 0.15); }
+
+/* ── Typography ────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--c-text-bright);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--c-text-bright);
+  margin-bottom: 0.5rem;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--c-accent) 0%, var(--c-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, var(--c-cyan), var(--c-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Metric card ───────────────────────────────────────────────────── */
+.metric-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--card-radius);
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--c-accent), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+  background: var(--c-surface-hover);
+  border-color: var(--c-accent);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.metric-card:hover::before {
+  opacity: 1;
+}
+
+.metric-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--c-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.metric-value {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--c-text-bright);
+  line-height: 1;
+}
+
+/* ── Content card ──────────────────────────────────────────────────── */
+.content-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  transition: all 0.3s ease;
+}
+
+.content-card:hover {
+  background: rgba(30, 41, 59, 0.4);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Badge ─────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.badge-green { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+.badge-red { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+.badge-blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2); }
+.badge-amber { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
+
+/* ── Buttons ───────────────────────────────────────────────────────── */
+.btn-primary {
+  background: var(--c-accent);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+  background: var(--c-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(59, 130, 246, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--c-text-bright);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  border: 1px solid var(--c-border);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--c-text-dim);
+}
+
+/* ── Inputs ────────────────────────────────────────────────────────── */
+input[type="text"], input[type="number"], select, textarea {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  color: var(--c-text-bright);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* ── Animations ────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+.animate-slide-up { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* ── Radar specific ── */
+.radar-grid {
+  background-image: 
+    radial-gradient(circle, rgba(59, 130, 246, 0.15) 1px, transparent 1px),
+    linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Recharts Overrides ────────────────────────────────────────────── */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: var(--c-border);
+  stroke-dasharray: 3 3;
+}
+
+.recharts-tooltip-cursor {
+  fill: rgba(255, 255, 255, 0.05);
+}
+
+.recharts-default-tooltip {
+  background-color: var(--c-bg2) !important;
+  border: 1px solid var(--c-border) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+.recharts-tooltip-item {
+  color: var(--c-text-bright) !important;
+  font-weight: 600 !important;
+}
+
+.recharts-legend-item-text {
+  color: var(--c-text-dim) !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
