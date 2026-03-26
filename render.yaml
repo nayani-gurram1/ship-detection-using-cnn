@@ -2,7 +2,7 @@ services:
   # Backend Service (FastAPI)
   - type: web
     name: ship-detection-backend
-    env: python
+    runtime: python
     plan: free
     buildCommand: pip install -r backend/requirements.txt
     startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
@@ -10,7 +10,7 @@ services:
   # Frontend Service (React Static Site)
   - type: static
     name: ship-detection-frontend
-    env: node
+    runtime: node
     plan: free
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
